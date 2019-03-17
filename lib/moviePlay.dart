@@ -60,8 +60,12 @@ class _MoviePlayState extends State<MoviePlay> {
         title: Text(params['title']),
       ),
       body: Container(
-        child: Chewie(
-          controller: _chewieController,
+        child: ListView(
+          children: <Widget>[
+            Chewie(
+              controller: _chewieController,
+            )
+          ],
         ),
       ),
     );

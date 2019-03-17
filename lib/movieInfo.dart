@@ -14,11 +14,14 @@ class MovieInfo extends StatefulWidget {
   _MovieInfoState createState() => _MovieInfoState(id, title);
 }
 
-class _MovieInfoState extends State<MovieInfo> {
+class _MovieInfoState extends State<MovieInfo> with AutomaticKeepAliveClientMixin{
   final id;
   final title;
 
   _MovieInfoState(this.id, this.title);
+
+ @override
+  bool get wantKeepAlive => true;
 
   String city = '福州';
   Map info = {};
@@ -64,6 +67,7 @@ class _MovieInfoState extends State<MovieInfo> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
