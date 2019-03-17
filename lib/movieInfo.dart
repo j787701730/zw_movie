@@ -3,6 +3,7 @@ import 'util.dart';
 import 'pageLoading.dart';
 import 'package:zw_movie/moviePlay.dart';
 import 'moviePhotos.dart';
+import 'drawStars.dart';
 
 class MovieInfo extends StatefulWidget {
   final id;
@@ -14,13 +15,13 @@ class MovieInfo extends StatefulWidget {
   _MovieInfoState createState() => _MovieInfoState(id, title);
 }
 
-class _MovieInfoState extends State<MovieInfo> with AutomaticKeepAliveClientMixin{
+class _MovieInfoState extends State<MovieInfo> with AutomaticKeepAliveClientMixin {
   final id;
   final title;
 
   _MovieInfoState(this.id, this.title);
 
- @override
+  @override
   bool get wantKeepAlive => true;
 
   String city = '福州';
@@ -92,7 +93,8 @@ class _MovieInfoState extends State<MovieInfo> with AutomaticKeepAliveClientMixi
                         width: MediaQuery.of(context).size.width - 140,
                         child: Wrap(
                           children: <Widget>[
-                            Text(((double.tryParse(info['rating']['stars']) / 10).toString())),
+//                            Text(((double.tryParse(info['rating']['stars']) / 10).toString())),
+                            DrawStars('${info['rating']['stars']}'),
                             Text('  ${info['rating']['average']}'),
                             Text(
                               '  ${info['collect_count']}人评价',
@@ -201,7 +203,6 @@ class _MovieInfoState extends State<MovieInfo> with AutomaticKeepAliveClientMixi
                             }).toList(),
                           ),
                         ),
-
                   Container(
                     padding: EdgeInsets.only(bottom: 10, top: 15),
                     child: Text(
@@ -252,11 +253,14 @@ class _MovieInfoState extends State<MovieInfo> with AutomaticKeepAliveClientMixi
                     ),
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: info['popular_comments'].map<Widget>((item) {
                       return ListTile(
                         contentPadding: EdgeInsets.only(left: 0, right: 0, bottom: 10),
                         title: Container(
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
                                 child: Row(
@@ -280,7 +284,8 @@ class _MovieInfoState extends State<MovieInfo> with AutomaticKeepAliveClientMixi
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(item['author']['name']),
-                                            Text('${item['rating']['value']}'),
+//                                            Text('${item['rating']['value']}'),
+                                            DrawStars((double.tryParse('${item['rating']['value']}') * 10).toString()),
                                             Text(
                                               item['created_at'],
                                               style: TextStyle(color: Colors.black38),
@@ -311,6 +316,7 @@ class _MovieInfoState extends State<MovieInfo> with AutomaticKeepAliveClientMixi
                         title: Container(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Container(
                                 child: Row(
@@ -334,7 +340,7 @@ class _MovieInfoState extends State<MovieInfo> with AutomaticKeepAliveClientMixi
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(item['author']['name']),
-                                            Text('${item['rating']['value']}'),
+                                            DrawStars((double.tryParse('${item['rating']['value']}') * 10).toString()),
 //                                            Text(item['created_at'],style: TextStyle(
 //                                                color: Colors.black38
 //                                            ),)

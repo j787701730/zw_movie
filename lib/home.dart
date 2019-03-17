@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'util.dart';
 import 'package:zw_movie/pageLoading.dart';
+
 //import 'movieContent.dart';
 import 'movieInfo.dart';
+import 'drawStars.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -81,9 +83,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                             child: Text('${item['title']} (${item['original_title']})'),
                                           ),
                                           Container(
-                                            child: Row(
+                                            child: Wrap(
                                               children: <Widget>[
-                                                Text(((double.tryParse(item['rating']['stars']) / 10).toString())),
+//                                                Text(((double.tryParse(item['rating']['stars']) / 10).toString())),
+                                                DrawStars('${item['rating']['stars']}'),
                                                 Text('  ${item['rating']['average']}'),
                                                 Text(
                                                   '  ${item['collect_count']}人评价',
