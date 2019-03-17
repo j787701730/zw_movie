@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'util.dart';
 import 'pageLoading.dart';
+import 'package:zw_movie/moviePlay.dart';
+import 'moviePhotos.dart';
 
 class MovieInfo extends StatefulWidget {
   final id;
@@ -36,13 +38,13 @@ class _MovieInfoState extends State<MovieInfo> {
       String pubdateTmp = '';
       if (data['directors'] != null) {
         for (var director in data['directors']) {
-          roleTmp += '${director['name']}(导演)/';
+          roleTmp += '/${director['name']}(导演)';
         }
       }
 
       if (data['casts'] != null) {
         for (var cast in data['casts']) {
-          roleTmp += '${cast['name']}(演员)/';
+          roleTmp += '/${cast['name']}(演员)';
         }
       }
 
@@ -134,7 +136,7 @@ class _MovieInfoState extends State<MovieInfo> {
                     }).toList(),
                   ),
                   Container(
-                    padding: EdgeInsets.only(bottom: 10),
+                    padding: EdgeInsets.only(bottom: 10, top: 15),
                     child: Text(
                       '$title的剧情简介',
                       style: TextStyle(color: Colors.black38),
@@ -147,7 +149,99 @@ class _MovieInfoState extends State<MovieInfo> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(bottom: 10, top: 10),
+                    padding: EdgeInsets.only(bottom: 10, top: 15),
+                    child: Text(
+                      '$title的预告片(${info['trailers'].length})',
+                      style: TextStyle(color: Colors.black38),
+                    ),
+                  ),
+                  info['trailers'].isEmpty
+                      ? Container(
+                          child: Text('无预告片'),
+                        )
+                      : Container(
+                          height: 140,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: info['trailers'].map<Widget>((item) {
+                              return Container(
+                                padding: EdgeInsets.only(right: 10),
+                                width: 200,
+                                height: 120,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) {
+                                      return new MoviePlay({'url': item['resource_url'], 'title': item['title']});
+                                    }));
+                                  },
+                                  child: Column(
+                                    children: <Widget>[
+                                      Container(
+                                        height: 120,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(image: NetworkImage(item['medium']), fit: BoxFit.contain),
+                                        ),
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.play_circle_outline,
+                                            color: Colors.white,
+                                            size: 50,
+                                          ),
+                                        ),
+                                      ),
+                                      Text('${item['title']}')
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+
+                  Container(
+                    padding: EdgeInsets.only(bottom: 10, top: 15),
+                    child: Text(
+                      '$title的剧照(${info['photos'].length})',
+                      style: TextStyle(color: Colors.black38),
+                    ),
+                  ),
+                  info['photos'].isEmpty
+                      ? Container(
+                          child: Text('无剧照'),
+                        )
+                      : Container(
+                          height: 140,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: info['photos'].map<Widget>((item) {
+                              return Container(
+                                padding: EdgeInsets.only(right: 10),
+                                width: 200,
+                                height: 120,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) {
+                                      return new MoviePhotos({'id': info['id'], 'title': info['title']});
+                                    }));
+                                  },
+                                  child: Column(
+                                    children: <Widget>[
+                                      Container(
+                                        height: 120,
+                                        child: Image.network(
+                                          item['thumb'],
+                                          fit: BoxFit.fitHeight,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                  Container(
+                    padding: EdgeInsets.only(bottom: 10, top: 15),
                     child: Text(
                       '$title的短评(${info['comments_count']})',
                       style: TextStyle(color: Colors.black38),
