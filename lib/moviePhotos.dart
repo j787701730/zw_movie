@@ -22,11 +22,14 @@ class _MoviePhotosState extends State<MoviePhotos> {
   int count = 10;
   List photos = [];
 
+  PageController _pageController;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getPhotos();
+    _pageController.initialPage;
   }
 
   _getPhotos() {
@@ -44,27 +47,51 @@ class _MoviePhotosState extends State<MoviePhotos> {
         title: Text(params['title']),
       ),
       body: Container(
-          child: photos.isEmpty
-              ? PageLoading()
-              : PhotoViewGallery(
-                  pageOptions: photos.map<PhotoViewGalleryPageOptions>((photo) {
-                    return PhotoViewGalleryPageOptions(
-                        imageProvider: NetworkImage(photo['thumb']), heroTag: photo['thumb']);
-                  }).toList(),
-                )
+        child: photos.isEmpty
+            ? PageLoading()
+            :
+//          PhotoViewGallery(
+//                  pageOptions: photos.map<PhotoViewGalleryPageOptions>((photo) {
+//                    return PhotoViewGalleryPageOptions(
+//                        imageProvider: NetworkImage(photo['thumb']), heroTag: photo['thumb']);
+//                  }).toList(),
+//                )
 
-//        ListView(
-//                children: photos.map<Widget>((photo) {
-//                  return Container(
-//                    padding: EdgeInsets.only(top: 8),
-//                    child: Image.network(
-//                      photo['thumb'],
-//                      fit: BoxFit.fitWidth,
-//                    ),
-//                  );
-//                }).toList(),
-//              ),
-          ),
+            ListView(
+                children: photos.map<Widget>((photo) {
+                  return Container(
+                    padding: EdgeInsets.only(top: 8),
+                    child: GestureDetector(
+                      onTap: () {
+                        showDialog<Null>(
+                        barrierDismissible: false,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return new SimpleDialog(
+                                children: <Widget>[
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height,
+                                    child: PhotoViewGallery(
+                                      pageOptions: photos.map<PhotoViewGalleryPageOptions>((photo) {
+                                        return PhotoViewGalleryPageOptions(
+                                            imageProvider: NetworkImage(photo['thumb']), heroTag: photo['thumb']);
+                                      }).toList(),
+                                    ),
+                                  )
+                                ],
+                              );
+                            });
+                      },
+                      child: Image.network(
+                        photo['thumb'],
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+      ),
     );
   }
 }
