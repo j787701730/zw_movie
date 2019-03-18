@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'util.dart';
 import 'pageLoading.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
 class MoviePhotos extends StatefulWidget {
   final params;
@@ -42,20 +44,27 @@ class _MoviePhotosState extends State<MoviePhotos> {
         title: Text(params['title']),
       ),
       body: Container(
-        child: photos.isEmpty
-            ? PageLoading()
-            : ListView(
-                children: photos.map<Widget>((photo) {
-                  return Container(
-                    padding: EdgeInsets.only(top: 8),
-                    child: Image.network(
-                      photo['thumb'],
-                      fit: BoxFit.fitWidth,
-                    ),
-                  );
-                }).toList(),
-              ),
-      ),
+          child: photos.isEmpty
+              ? PageLoading()
+              : PhotoViewGallery(
+                  pageOptions: photos.map<PhotoViewGalleryPageOptions>((photo) {
+                    return PhotoViewGalleryPageOptions(
+                        imageProvider: NetworkImage(photo['thumb']), heroTag: photo['thumb']);
+                  }).toList(),
+                )
+
+//        ListView(
+//                children: photos.map<Widget>((photo) {
+//                  return Container(
+//                    padding: EdgeInsets.only(top: 8),
+//                    child: Image.network(
+//                      photo['thumb'],
+//                      fit: BoxFit.fitWidth,
+//                    ),
+//                  );
+//                }).toList(),
+//              ),
+          ),
     );
   }
 }
