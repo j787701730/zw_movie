@@ -18,7 +18,7 @@ class _ReviewsState extends State<Reviews> {
   _ReviewsState(this.param);
 
   int start = 0; // 第几条开始取
-  int count = 5; // 取到第几条止
+  int count = 5; // 要取条数
   List photos = [];
   int page = 0;
   int total = 0;

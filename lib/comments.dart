@@ -17,7 +17,7 @@ class _CommentsState extends State<Comments> {
   _CommentsState(this.param);
 
   int start = 0; // 第几条开始取
-  int count = 10; // 取到第几条止
+  int count = 10; // 要取条数
   List photos = [];
   int page = 0;
   int total = 0;
