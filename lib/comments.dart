@@ -93,7 +93,6 @@ class _CommentsState extends State<Comments> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(item['author']['name']),
-//                                            Text('${item['rating']['value']}'),
                                       DrawStars((double.tryParse('${item['rating']['value']}') * 10).toString()),
                                       Text(
                                         item['created_at'],
