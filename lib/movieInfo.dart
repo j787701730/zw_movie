@@ -4,6 +4,7 @@ import 'pageLoading.dart';
 import 'package:zw_movie/moviePlay.dart';
 import 'moviePhotos.dart';
 import 'drawStars.dart';
+import 'reviews.dart';
 
 class MovieInfo extends StatefulWidget {
   final id;
@@ -247,9 +248,14 @@ class _MovieInfoState extends State<MovieInfo> with AutomaticKeepAliveClientMixi
                         ),
                   Container(
                     padding: EdgeInsets.only(bottom: 10, top: 15),
-                    child: Text(
-                      '$title的短评(${info['comments_count']})',
-                      style: TextStyle(color: Colors.black38),
+                    child: InkWell(
+                      child: Text('$title的短评(${info['comments_count']})',
+                        style: TextStyle(color: Colors.black38),),
+                      onTap: (){
+                        Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) {
+                          return new Reviews({'id': info['id'], 'title': info['title']});
+                        }));
+                      },
                     ),
                   ),
                   Column(
