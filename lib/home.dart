@@ -22,9 +22,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     _getMovies();
   }
 
-  int start = 0;
+  int start = 0; // 从第几条
   int page = 0;
-  int count = 10;
+  int count = 10; // 一次取几条
   int total = 0;
   String city = '福州';
   List subjects = [];
